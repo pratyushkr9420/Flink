@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 const ChatHomeScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Pressable onPress={() => navigation.navigate("ChatSettings")}>
+      <Pressable onPress={() => navigation.navigate("ChatScreen")}>
         <Text style={{ fontFamily: "black", fontSize: 25 }}>
           Chat Home Screen
         </Text>
