@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 
@@ -7,10 +7,16 @@ import { Entypo, Ionicons } from "@expo/vector-icons";
 import MainNavigator from "./MainNavigator";
 //
 
+// import Screens
+import AuthScreen from "../Screens/AuthScreen";
+//
+
 const AppNavigator = () => {
+  const [isAuth, setIsAuth] = useState(true);
+
   return (
     <NavigationContainer>
-      <MainNavigator />
+      {isAuth ? <MainNavigator /> : <AuthScreen />}
     </NavigationContainer>
   );
 };

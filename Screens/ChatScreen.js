@@ -7,31 +7,58 @@ import {
   ImageBackground,
   TextInput,
   Button,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
-import React from "react";
+import React, { useState, useCallback } from "react";
 import backGroundImage from "../assets/bg.jpg";
 import { Entypo, Feather } from "@expo/vector-icons";
-import { colors } from "../Styles/styles";
+import { colors } from "../styles/styles";
 
 const ChatScreen = () => {
+  const [textMessage, setTextMessage] = useState("");
+
+  const handleTextSubmission = useCallback(() => {
+    console.log("Entered text is", textMessage);
+    setTextMessage("");
+  }, [textMessage]);
+
   return (
     <View style={styles.container}>
-      <ImageBackground
-        style={styles.backgroundImage}
-        source={backGroundImage}
-      ></ImageBackground>
-      <View style={styles.inputContainer}>
-        <Pressable>
-          <Entypo name="plus" size={24} color={colors.gray} />
-        </Pressable>
-        <TextInput
-          style={styles.textInputBox}
-          placeholder="Type your message here"
-        />
-        <Pressable>
-          <Feather name="camera" size={24} color={colors.gray} />
-        </Pressable>
-      </View>
+      <KeyboardAvoidingView
+        style={styles.chatScreen}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={94}
+      >
+        <ImageBackground
+          style={styles.backgroundImage}
+          source={backGroundImage}
+        ></ImageBackground>
+        <View style={styles.inputContainer}>
+          <TouchableOpacity>
+            <Entypo name="plus" size={24} color={colors.blue} />
+          </TouchableOpacity>
+          <TextInput
+            value={textMessage}
+            style={styles.textInputBox}
+            placeholder="Type your message here"
+            onChangeText={(text) => setTextMessage(text)}
+            onSubmitEditing={handleTextSubmission}
+          />
+          {textMessage === "" && (
+            <TouchableOpacity>
+              <Feather name="camera" size={24} color={colors.blue} />
+            </TouchableOpacity>
+          )}
+
+          {textMessage !== "" && (
+            <TouchableOpacity onPress={handleTextSubmission}>
+              <Feather name="send" size={24} color={colors.blue} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -39,6 +66,9 @@ const ChatScreen = () => {
 export default ChatScreen;
 
 const styles = StyleSheet.create({
+  chatScreen: {
+    flex: 1,
+  },
   container: {
     flex: 1,
   },
@@ -48,6 +78,7 @@ const styles = StyleSheet.create({
   textInputBox: {
     fontSize: 18,
     borderWidth: 1,
+    borderColor: "#0585ed",
     flex: 1,
     borderRadius: 20,
     paddingHorizontal: 8,
